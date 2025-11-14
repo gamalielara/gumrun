@@ -23,6 +23,7 @@ ksp = "1.9.22-1.0.17"
 androidTools = "31.2.2"
 room = "2.6.1"
 desugar_jdk_libs = "2.0.4"
+composeCompiler = "1.5.9"
 
 # Project versions
 projectApplicationId = "com.example.gumrun"
@@ -70,6 +71,7 @@ google-maps-android-compose = { module = "com.google.maps.android:maps-compose",
 desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 
 
+
 # Gradle
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
@@ -86,3 +88,4 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 
 gumrun-android-application = { id = "gumrun.androidApplication", version = "unspecified" }
+gumrun-android-application-compose = { id = "gumrun.androidApplication.compose", version = "unspecified" }

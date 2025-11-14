@@ -18,5 +18,10 @@ gradlePlugin {
             id = "gumrun.androidApplication"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
+
+        register("androidApplicationCompose") {
+            id = "gumrun.androidApplication.compose"
+            implementationClass = "AndroidApplicationComposeConventionPlugin"
+        }
     }
 }
