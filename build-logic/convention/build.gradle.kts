@@ -23,5 +23,25 @@ gradlePlugin {
             id = "gumrun.androidApplication.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
+
+        register("androidLibrary") {
+            id = "gumrun.android.library"
+            implementationClass = "AndroidApplicationComposeConventionPlugin"
+        }
+
+        register("androidLibraryCompose") {
+            id = "gumrun.android.library.compose"
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
+        }
+
+        register("androidFeatureUI") {
+            id = "gumrun.android.library.feature.ui"
+            implementationClass = "AndroidFeatureUIConventionPlugin"
+        }
+
+        register("androidRoom") {
+            id = "gumrun.android.room"
+            implementationClass = "AndroidRoomConventionPlugin"
+        }
     }
 }
