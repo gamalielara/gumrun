@@ -43,5 +43,15 @@ gradlePlugin {
             id = "gumrun.android.room"
             implementationClass = "AndroidRoomConventionPlugin"
         }
+
+        register("jvmLibrary") {
+            id = "gumrun.jvm.library"
+            implementationClass = "JVMLibraryConventionPlugin"
+        }
+
+        register("jvmKtor") {
+            id = "gumrun.jvm.ktor"
+            implementationClass = "JVMKtorConventionPlugin"
+        }
     }
 }

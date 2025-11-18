@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.gumrun.android.application.compose)
+    alias(libs.plugins.mapsplatform.secrets.plugin)
 }
 
 android {

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.gumrun.android.library.compose)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.gumrun.jvm.ktor)
 }
 
 android {
