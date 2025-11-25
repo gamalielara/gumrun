@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_disk_full">Failed to save the item because the disk is full.</string>
+    <string name="error_request_timeout">Request timeout.</string>
+    <string name="error_unauthorized">Unauthorized</string>
+    <string name="error_conflict">Email has already existed</string>
+    <string name="error_too_many_request">Too many requests</string>
+    <string name="error_no_internet">No internet</string>
+    <string name="error_payload_too_large_request">The file you\'re trying to upload is too large</string>
+    <string name="error_server_error">Something went wrong in our end. Please try again</string>
+    <string name="error_serialization">Data is invalid</string>
+    <string name="error_unknown">Unknown error just happened</string>
+</resources>

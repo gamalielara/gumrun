@@ -12,6 +12,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             pluginManager.run {
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.android")
+                apply("org.jetbrains.kotlin.plugin.compose")
             }
 
             extensions.configure<ApplicationExtension> {
@@ -22,8 +23,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 
                     targetSdk = libs.findVersion("projectTargetSdk").get().toString().toInt()
                     minSdk = libs.findVersion("projectMinSdk").get().toString().toInt()
-
-
+                    compileSdk = libs.findVersion("projectCompileSdkVersion").get().toString().toInt()
                 }
 
                 configureKotlinAndroid(this)
@@ -32,5 +32,4 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 
         }
     }
-
 }

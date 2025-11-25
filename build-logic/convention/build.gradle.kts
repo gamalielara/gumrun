@@ -26,7 +26,7 @@ gradlePlugin {
 
         register("androidLibrary") {
             id = "gumrun.android.library"
-            implementationClass = "AndroidApplicationComposeConventionPlugin"
+            implementationClass = "AndroidLibraryConventionPlugin"
         }
 
         register("androidLibraryCompose") {

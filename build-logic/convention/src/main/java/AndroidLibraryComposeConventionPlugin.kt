@@ -15,7 +15,7 @@ class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         target.run {
             pluginManager.run {
-                apply("com.android.library")
+                apply("gumrun.android.library")
             }
 
             val extensions = extensions.getByType<LibraryExtension>()

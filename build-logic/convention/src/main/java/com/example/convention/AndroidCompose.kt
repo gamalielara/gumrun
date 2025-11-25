@@ -24,4 +24,5 @@ internal fun Project.configureAndroidCompose(
             "debugImplementation"(libs.findLibrary("androidx.compose.ui.tooling.preview").get())
         }
     }
+
 }
