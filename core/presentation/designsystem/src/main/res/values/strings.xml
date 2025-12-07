@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gumrun">gumrun</string>
+    <string name="welcome_to_gumrun">Welcome to GumRun!</string>
+    <string name="gumrun_desc_text">Track your gun, set goals and achieve your running goals!</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_in">Sign In</string>
+    <string name="create_content">Create</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="log_in">Login</string>
+</resources>

@@ -21,6 +21,9 @@ dependencyResolutionManagement {
     }
 }
 
+gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:convention:testClasses"))
+
+
 rootProject.name = "gumrun"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
