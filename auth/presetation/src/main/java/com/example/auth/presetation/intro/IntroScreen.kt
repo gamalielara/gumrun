@@ -18,11 +18,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import com.example.core.presentation.designsystem.components.GradientBackground
-import com.example.core.presentation.designsystem.GumrunActionButton
 import com.example.core.presentation.designsystem.components.GumrunLogoVertical
-import com.example.core.presentation.designsystem.GumrunOutlinedActionButton
 import com.example.core.presentation.designsystem.GumrunTheme
 import com.example.core.presentation.designsystem.R
+import com.example.core.presentation.designsystem.components.GumrunActionButton
+import com.example.core.presentation.designsystem.components.GumrunOutlinedActionButton
 
 // Create a separate composable component that can take viewModel, navController etc
 // Will render child components

@@ -8,4 +8,15 @@
     <string name="create_content">Create</string>
     <string name="already_have_an_account">Already have an account?</string>
     <string name="log_in">Login</string>
+    <string name="email_hint">example_email@example.com</string>
+    <string name="email">Email</string>
+    <string name="must_be_valid_email">Must be a valid email\n</string>
+    <string name="show_password">Show Password</string>
+    <string name="hide_password">Hide Password</string>
+    <string name="password">Password</string>
+    <string name="at_least_x_characters">At least %d characters</string>
+    <string name="at_least_one_number">At least one number</string>
+    <string name="contain_lowercase_char">Must contain lowercase character</string>
+    <string name="contain_uppercase_char">Must contain uppercase character</string>
+    <string name="register">Register</string>
 </resources>
