@@ -44,31 +44,21 @@ import com.example.core.presentation.designsystem.components.GumrunTextField
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-
-fun RegisterScreenScreenRoot(
-
-    viewModel: RegisterViewModel = koinViewModel()
-
+fun RegisterScreenRoot(
+    onSignInClick: () -> Unit,
+    onSuccessfulRegistration: () -> Unit,
+    viewModel: RegisterViewModel = koinViewModel(),
 ) {
-
     RegisterScreen(
-
         state = viewModel.state,
-
         onAction = viewModel::onAction
-
     )
-
 }
 
 @Composable
 
 private fun RegisterScreen(
-
-    state: RegisterState,
-
-    onAction: (RegisterAction) -> Unit
-
+    state: RegisterState, onAction: (RegisterAction) -> Unit
 ) {
 
     GradientBackground {
@@ -94,8 +84,7 @@ private fun RegisterScreen(
                 ) {
                     append(stringResource(R.string.already_have_an_account) + " ")
                     pushStringAnnotation(
-                        tag = "clickable_text",
-                        annotation = stringResource(R.string.log_in)
+                        tag = "clickable_text", annotation = stringResource(R.string.log_in)
                     )
                     withStyle(
                         style = SpanStyle(
@@ -110,15 +99,11 @@ private fun RegisterScreen(
             }
 
             ClickableText(
-                text = annotatedString,
-                onClick = { offset ->
+                text = annotatedString, onClick = { offset ->
                     annotatedString.getStringAnnotations(
-                        tag = "clickable_text",
-                        start = offset,
-                        end = offset
+                        tag = "clickable_text", start = offset, end = offset
                     ).firstOrNull()?.let { onAction(RegisterAction.OnLoginClick) }
-                }
-            )
+                })
 
             Spacer(modifier = Modifier.height(48.dp))
 
@@ -148,8 +133,7 @@ private fun RegisterScreen(
 
             PasswordRequirement(
                 text = stringResource(
-                    R.string.at_least_x_characters,
-                    UserDataValidator.MIN_PASSWORD_LENGTH
+                    R.string.at_least_x_characters, UserDataValidator.MIN_PASSWORD_LENGTH
                 ),
                 isValid = state.passwordValidationState.hasMinimumLength,
             )
@@ -173,8 +157,7 @@ private fun RegisterScreen(
 
             PasswordRequirement(
                 text = stringResource(
-                    R.string.contain_uppercase_char,
-                    UserDataValidator.MIN_PASSWORD_LENGTH
+                    R.string.contain_uppercase_char, UserDataValidator.MIN_PASSWORD_LENGTH
                 ),
                 isValid = state.passwordValidationState.hasUppercaseChar,
             )
@@ -185,17 +168,14 @@ private fun RegisterScreen(
                 isLoading = state.isRegistering,
                 enabled = state.canRegister,
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { onAction(RegisterAction.OnRegisterClick) }
-            )
+                onClick = { onAction(RegisterAction.OnRegisterClick) })
         }
     }
 }
 
 @Composable
 fun PasswordRequirement(
-    text: String,
-    isValid: Boolean,
-    modifier: Modifier = Modifier
+    text: String, isValid: Boolean, modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier,
@@ -219,18 +199,15 @@ private fun RegisterScreenScreenPreview() {
     GumrunTheme {
 
         RegisterScreen(
-
             state = RegisterState(
                 passwordValidationState = PasswordValidationState(
                     hasMinimumLength = true,
                     hasNumber = true,
                     hasLowercaseChar = true,
-//                    hasUppercaseChar = true
+                    hasUppercaseChar = true
                 )
             ),
-
             onAction = {}
-
         )
 
     }
