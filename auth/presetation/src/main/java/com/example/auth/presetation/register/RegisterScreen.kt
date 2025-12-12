@@ -1,5 +1,6 @@
 package com.example.auth.presetation.register
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +18,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -41,6 +44,7 @@ import com.example.core.presentation.designsystem.R
 import com.example.core.presentation.designsystem.components.GumrunActionButton
 import com.example.core.presentation.designsystem.components.GumrunPasswordTextField
 import com.example.core.presentation.designsystem.components.GumrunTextField
+import com.example.presentation.ui.observeAsEvents
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -49,6 +53,26 @@ fun RegisterScreenRoot(
     onSuccessfulRegistration: () -> Unit,
     viewModel: RegisterViewModel = koinViewModel(),
 ) {
+    val context = LocalContext.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    observeAsEvents(
+        flow = viewModel.event
+    ) { event ->
+        when (event) {
+            is RegisterEvent.RegisterError -> {
+                keyboardController?.hide()
+                Toast.makeText(context, event.error.asString(context), Toast.LENGTH_LONG).show()
+            }
+
+            RegisterEvent.RegistrationSuccess -> {
+                Toast.makeText(context, R.string.registration_success, Toast.LENGTH_LONG).show()
+                onSuccessfulRegistration()
+            }
+        }
+
+    }
+
     RegisterScreen(
         state = viewModel.state,
         onAction = viewModel::onAction
@@ -56,11 +80,9 @@ fun RegisterScreenRoot(
 }
 
 @Composable
-
 private fun RegisterScreen(
     state: RegisterState, onAction: (RegisterAction) -> Unit
 ) {
-
     GradientBackground {
         Column(
             modifier = Modifier

@@ -1,5 +1,6 @@
 package com.example.gumrun
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -29,10 +30,10 @@ private fun NavGraphBuilder.authGraph(
         composable(route = "intro") {
             IntroScreenRoot(
                 onSignInClick = {
-                    navController.navigate("register")
+                    navController.navigate("login")
                 },
                 onSignUpClick = {
-                    navController.navigate("login")
+                    navController.navigate("register")
                 })
         }
 
@@ -49,6 +50,10 @@ private fun NavGraphBuilder.authGraph(
                 },
                 onSuccessfulRegistration = { navController.navigate("login") }
             )
+        }
+
+        composable(route = "login") {
+            Text("LOGIN HAHA")
         }
     }
 }
