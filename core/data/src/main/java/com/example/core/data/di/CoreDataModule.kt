@@ -1,13 +1,16 @@
 package com.example.core.data.di
 
+import com.example.core.data.auth.EncryptedSessionStorage
 import com.example.core.data.networking.HttpClientFactory
-import io.ktor.client.HttpClient
+import com.example.core.domain.util.SessionStorage
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val coreDataModule = module{
-    single{
+val coreDataModule = module {
+    single {
         HttpClientFactory().build()
     }
+
+    singleOf(::EncryptedSessionStorage).bind<SessionStorage>()
 }
