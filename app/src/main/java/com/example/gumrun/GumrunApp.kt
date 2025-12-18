@@ -2,7 +2,7 @@ package com.example.gumrun
 
 import android.app.Application
 import com.example.auth.data.di.authDataModule
-import com.example.auth.presetation.register.di.authViewModule
+import com.example.auth.presetation.di.authViewModule
 import com.example.core.data.di.coreDataModule
 import com.example.gumrun.di.appModule
 import org.koin.android.ext.koin.androidContext
