@@ -49,7 +49,6 @@ class RegisterViewModel(
                 canRegister = state.isEmailValid && _passwordValidationState.isValidPassword
 
             )
-
         }.launchIn(viewModelScope)
     }
 

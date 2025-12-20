@@ -65,15 +65,7 @@ fun LoginScreenRoot(
     }
     LoginScreen(
         state = viewModel.state,
-        onAction = {action ->
-            when(action){
-                LoginAction.OnLoginClick -> onSignUpClick()
-                LoginAction.OnRegisterClick -> TODO()
-                LoginAction.OnTogglePasswordVisibilityClick -> TODO()
-            }
-            viewModel.onAction(action)
-
-        }
+        onAction = viewModel::onAction
     )
 }
 

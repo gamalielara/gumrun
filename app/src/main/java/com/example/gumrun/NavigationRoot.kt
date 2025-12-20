@@ -17,6 +17,7 @@ fun NavigationRoot(
 ) {
     NavHost(navController = navController, startDestination = "auth") {
         authGraph(navController)
+        runGraph(navController)
     }
 }
 
@@ -56,8 +57,8 @@ private fun NavGraphBuilder.authGraph(
         composable(route = "login") {
             LoginScreenRoot(
                 onLoginSuccess = {
-                    navController.navigate("run"){
-                        popUpTo("auth"){
+                    navController.navigate("run") {
+                        popUpTo("auth") {
                             inclusive = true
                         }
                     }
@@ -73,6 +74,19 @@ private fun NavGraphBuilder.authGraph(
                     }
                 }
             )
+        }
+
+
+    }
+}
+
+private fun NavGraphBuilder.runGraph(navController: NavHostController) {
+    navigation(
+        startDestination = "run_overview",
+        route = "run"
+    ) {
+        composable("run_overview") {
+            Text("Run Overview")
         }
     }
 }
