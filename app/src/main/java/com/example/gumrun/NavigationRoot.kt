@@ -13,9 +13,10 @@ import com.example.auth.presetation.register.RegisterScreenRoot
 
 @Composable
 fun NavigationRoot(
-    navController: NavHostController
+    navController: NavHostController,
+    isLoggedIn: Boolean
 ) {
-    NavHost(navController = navController, startDestination = "auth") {
+    NavHost(navController = navController, startDestination = if (isLoggedIn) "run" else "auth") {
         authGraph(navController)
         runGraph(navController)
     }
@@ -23,7 +24,6 @@ fun NavigationRoot(
 
 private fun NavGraphBuilder.authGraph(
     navController: NavHostController
-
 ) {
     navigation(
         startDestination = "intro",

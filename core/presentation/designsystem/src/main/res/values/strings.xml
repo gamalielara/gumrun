@@ -25,4 +25,6 @@
     <string name="gumrun_welcome_text">Welcome to the ultimate running companion. Track, analyze and conquer the running world!</string>
     <string name="dont_have_an_account">Don\'t have an account?</string>
     <string name="youre_logged_in">You\'re logged in!</string>
+    <string name="go_back">Go Back</string>
+    <string name="open_menu">Open Menu</string>
 </resources>
