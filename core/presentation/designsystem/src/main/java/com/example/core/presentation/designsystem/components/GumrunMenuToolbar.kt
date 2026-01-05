@@ -44,7 +44,7 @@ import com.example.core.presentation.designsystem.components.util.DropdownMenuIt
 @Composable
 fun GumrunToolbar(
     showBackButton: Boolean,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     title: String,
     menuItems: List<DropdownMenuItem> = emptyList<DropdownMenuItem>(),
     onMenuItemClick: (index: Int) -> Unit = {},
