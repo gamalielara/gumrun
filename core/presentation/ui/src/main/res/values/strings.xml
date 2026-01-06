@@ -11,4 +11,7 @@
     <string name="error_serialization">Data is invalid</string>
     <string name="error_unknown">Unknown error just happened</string>
     <string name="error_email_password_incorrect">Email or password is incorrect</string>
+    <string name="duration">Duration</string>
+    <string name="distance">Distance</string>
+    <string name="pace">Pace</string>
 </resources>
