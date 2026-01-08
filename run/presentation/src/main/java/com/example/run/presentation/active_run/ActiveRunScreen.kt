@@ -1,5 +1,13 @@
 package com.example.run.presentation.active_run
 
+import android.Manifest
+import android.content.Context
+import android.os.Build
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,18 +16,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.core.presentation.designsystem.GumrunTheme
 import com.example.core.presentation.designsystem.StartIcon
 import com.example.core.presentation.designsystem.StopIcon
+import com.example.core.presentation.designsystem.components.GumrunDialog
 import com.example.core.presentation.designsystem.components.GumrunFloatingActionButton
+import com.example.core.presentation.designsystem.components.GumrunOutlinedActionButton
 import com.example.core.presentation.designsystem.components.GumrunScaffold
 import com.example.core.presentation.designsystem.components.GumrunToolbar
 import com.example.run.presentation.R
 import com.example.run.presentation.active_run.components.RunDataCard
+import com.example.run.presentation.util.hasLocationPermission
+import com.example.run.presentation.util.hasNotiPermission
+import com.example.run.presentation.util.shouldShowLocationPermissionRationale
+import com.example.run.presentation.util.shouldShowNotificationPermissionRationale
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -27,7 +43,7 @@ import org.koin.androidx.compose.koinViewModel
 fun ActiveRunScreenRoot(
     viewModel: ActiveRunViewModel = koinViewModel()
 ) {
-    ActiveRunScreenRoot(
+    ActiveRunScreen(
         state = viewModel.state,
         onAction = viewModel::onAction
     )
@@ -35,10 +51,64 @@ fun ActiveRunScreenRoot(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ActiveRunScreenRoot(
+private fun ActiveRunScreen(
     state: ActiveRunState,
     onAction: (ActiveRunAction) -> Unit
 ) {
+    val context = LocalContext.current
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { perms ->
+        val hasCourseLocationPermission = perms[Manifest.permission.ACCESS_COARSE_LOCATION] == true
+        val hasFineLocationPermission = perms[Manifest.permission.ACCESS_FINE_LOCATION] == true
+        val hasNotiPermission =
+            if (Build.VERSION.SDK_INT >= 33) perms[Manifest.permission.POST_NOTIFICATIONS] == true else true
+
+        val activity = context as ComponentActivity
+        val showLocationRationale = activity.shouldShowLocationPermissionRationale()
+        val showNotiRationale = activity.shouldShowNotificationPermissionRationale()
+
+        onAction(
+            ActiveRunAction.SubmitLocationInfo(
+                acceptedLocationPermission = hasCourseLocationPermission && hasFineLocationPermission,
+                showLocationRationale = showLocationRationale
+            )
+        )
+
+        onAction(
+            ActiveRunAction.SubmitNotificationPermissionInfo(
+                acceptedNotiPermission = hasNotiPermission,
+                showNotiRationale = showNotiRationale
+            )
+        )
+    }
+
+    LaunchedEffect(key1 = true) {
+        val activity = context as ComponentActivity
+        val showLocationRationale = activity.shouldShowLocationPermissionRationale()
+        val showNotiRationale = activity.shouldShowNotificationPermissionRationale()
+
+        onAction(
+            ActiveRunAction.SubmitLocationInfo(
+                acceptedLocationPermission = context.hasLocationPermission(),
+                showLocationRationale = showLocationRationale
+            )
+        )
+
+        onAction(
+            ActiveRunAction.SubmitNotificationPermissionInfo(
+                acceptedNotiPermission = context.hasNotiPermission(),
+                showNotiRationale = showNotiRationale
+            )
+        )
+
+
+        if (!showLocationRationale && !showNotiRationale) {
+            permissionLauncher.requestGumrunPermissions(context)
+        }
+    }
+
     GumrunScaffold(
         withGradient = false,
         topAppBar = {
@@ -78,13 +148,68 @@ private fun ActiveRunScreenRoot(
             )
         }
     }
+
+    if (state.showLocationRationale || state.showNotificationRationale) {
+        GumrunDialog(
+            title = stringResource(R.string.permission_required),
+            onDismiss = { /* Normal dismissing not allowed for permission */ },
+            description = when {
+                state.showLocationRationale && state.showNotificationRationale -> {
+                    stringResource(id = R.string.location_notification_rationale)
+                }
+
+                state.showLocationRationale -> {
+                    stringResource(id = R.string.location_rationale)
+                }
+
+                else -> {
+                    stringResource(id = R.string.notification_rationale)
+                }
+            },
+            primaryButton = {
+                GumrunOutlinedActionButton(
+                    text = stringResource(id = R.string.okay),
+                    isLoading = false,
+                    modifier = Modifier,
+                    onClick = {
+                        onAction(ActiveRunAction.DismissRationaleDialog)
+                        permissionLauncher.requestGumrunPermissions(context)
+                    }
+                )
+            },
+            modifier = Modifier,
+        )
+    }
+}
+
+private fun ActivityResultLauncher<Array<String>>.requestGumrunPermissions(
+    context: Context,
+) {
+    val hasLocationPermission = context.hasLocationPermission()
+    val hasNotiPermission = context.hasNotiPermission()
+
+    val locationPermissions = arrayOf(
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
+    val notiPermission =
+        if (Build.VERSION.SDK_INT >= 33) arrayOf(Manifest.permission.POST_NOTIFICATIONS) else emptyArray()
+
+    when {
+        !hasLocationPermission && !hasNotiPermission -> {
+            launch(locationPermissions + notiPermission)
+        }
+
+        !hasLocationPermission -> launch(locationPermissions)
+        !hasNotiPermission -> launch(notiPermission)
+    }
 }
 
 @Preview
 @Composable
 private fun ActiveRunScreenRootPreview() {
     GumrunTheme() {
-        ActiveRunScreenRoot(
+        ActiveRunScreen(
             state = ActiveRunState(),
             onAction = {}
         )

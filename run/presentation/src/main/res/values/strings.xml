@@ -3,4 +3,10 @@
     <string name="active_run">Active Run</string>
     <string name="pause_run">Pause Run</string>
     <string name="start_run">Start Run</string>
+    <string name="permission_required">Permission Required</string>
+    <string name="location_and_notification_permission_required">Please allow location and notification for this app</string>
+    <string name="location_notification_rationale">Need to have location and location permission</string>
+    <string name="location_rationale">Need to have location perm</string>
+    <string name="notification_rationale">Need to have noti perm</string>
+    <string name="okay">Okay</string>
 </resources>
