@@ -44,16 +44,14 @@ fun ActiveRunScreenRoot(
     viewModel: ActiveRunViewModel = koinViewModel()
 ) {
     ActiveRunScreen(
-        state = viewModel.state,
-        onAction = viewModel::onAction
+        state = viewModel.state, onAction = viewModel::onAction
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ActiveRunScreen(
-    state: ActiveRunState,
-    onAction: (ActiveRunAction) -> Unit
+    state: ActiveRunState, onAction: (ActiveRunAction) -> Unit
 ) {
     val context = LocalContext.current
 
@@ -78,8 +76,7 @@ private fun ActiveRunScreen(
 
         onAction(
             ActiveRunAction.SubmitNotificationPermissionInfo(
-                acceptedNotiPermission = hasNotiPermission,
-                showNotiRationale = showNotiRationale
+                acceptedNotiPermission = hasNotiPermission, showNotiRationale = showNotiRationale
             )
         )
     }
@@ -104,35 +101,35 @@ private fun ActiveRunScreen(
         )
 
 
+        // If no need to show rationale, request permissions immediately
+        /*
+        *   Rationale will only shown once, when the user reject permission.
+        *   Once rejected twice, rationale will not be shown again.
+        */
         if (!showLocationRationale && !showNotiRationale) {
             permissionLauncher.requestGumrunPermissions(context)
         }
     }
 
-    GumrunScaffold(
-        withGradient = false,
-        topAppBar = {
-            GumrunToolbar(
-                showBackButton = true,
-                title = stringResource(R.string.active_run),
-                onBackClick = {
-                    onAction(ActiveRunAction.OnBackClick)
-                },
-            )
-        },
-        floatingActionButton = {
-            GumrunFloatingActionButton(
-                icon = if (state.shouldTrack) StopIcon else StartIcon,
-                onClick = {
-                    onAction(ActiveRunAction.OnToggleRunClick)
-                },
-                iconSize = 20.dp,
-                contentDescription =
-                    if (state.shouldTrack) stringResource(R.string.pause_run)
-                    else stringResource(R.string.start_run)
-            )
-        }
-    ) { padding ->
+    GumrunScaffold(withGradient = false, topAppBar = {
+        GumrunToolbar(
+            showBackButton = true,
+            title = stringResource(R.string.active_run),
+            onBackClick = {
+                onAction(ActiveRunAction.OnBackClick)
+            },
+        )
+    }, floatingActionButton = {
+        GumrunFloatingActionButton(
+            icon = if (state.shouldTrack) StopIcon else StartIcon,
+            onClick = {
+                onAction(ActiveRunAction.OnToggleRunClick)
+            },
+            iconSize = 20.dp,
+            contentDescription = if (state.shouldTrack) stringResource(R.string.pause_run)
+            else stringResource(R.string.start_run)
+        )
+    }) { padding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -174,8 +171,7 @@ private fun ActiveRunScreen(
                     onClick = {
                         onAction(ActiveRunAction.DismissRationaleDialog)
                         permissionLauncher.requestGumrunPermissions(context)
-                    }
-                )
+                    })
             },
             modifier = Modifier,
         )
@@ -189,8 +185,7 @@ private fun ActivityResultLauncher<Array<String>>.requestGumrunPermissions(
     val hasNotiPermission = context.hasNotiPermission()
 
     val locationPermissions = arrayOf(
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION
+        Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION
     )
     val notiPermission =
         if (Build.VERSION.SDK_INT >= 33) arrayOf(Manifest.permission.POST_NOTIFICATIONS) else emptyArray()
@@ -210,8 +205,6 @@ private fun ActivityResultLauncher<Array<String>>.requestGumrunPermissions(
 private fun ActiveRunScreenRootPreview() {
     GumrunTheme() {
         ActiveRunScreen(
-            state = ActiveRunState(),
-            onAction = {}
-        )
+            state = ActiveRunState(), onAction = {})
     }
 }
