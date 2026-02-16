@@ -2,6 +2,7 @@ package com.example.run.domain
 
 import com.example.core.domain.util.location.LocationTimestamp
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,6 +19,8 @@ import kotlin.math.roundToInt
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
+
+@OptIn(ExperimentalCoroutinesApi::class)
 class RunningTracker(
     private val locationObserver: LocationObserver,
     private val applicationScope: CoroutineScope
@@ -33,7 +36,6 @@ class RunningTracker(
 
 
     // Will be triggered whenever the flow's value changes
-    // FlatMapLatest -> map the outcome of the boolean flow to a different flow
     val currentLocationFlow = isObservingLocation.flatMapLatest { isObserving ->
         if (isObserving) {
             locationObserver.observeLocation(1000L)
@@ -55,7 +57,7 @@ class RunningTracker(
                 flowOf()
             }
         }.onEach {
-            _elapsedTime.value = it
+            _elapsedTime.value += it
         }.launchIn(applicationScope)
 
         // Combine locstion flow with isTracking flow
@@ -76,7 +78,7 @@ class RunningTracker(
             .onEach { locationWithTimestamp ->
                 val currLocation = runData.value.locations
                 val lastLoc = if (currLocation.isNotEmpty()) {
-                    currLocation.last()
+                    currLocation.last() + locationWithTimestamp
                 } else {
                     listOf(locationWithTimestamp)
                 }
@@ -90,6 +92,7 @@ class RunningTracker(
                 val avgSecPerKM =
                     if (distanceInKM == 0.0) 0 else (duration.inWholeSeconds / distanceInKM).roundToInt()
 
+                println("newloc $newLoc")
                 _runData.update {
                     Run(
                         distanceMeters = distanceMeters,
@@ -98,9 +101,10 @@ class RunningTracker(
                     )
                 }
             }
+            .launchIn(applicationScope)
     }
 
-    fun isTracking(isTracking: Boolean) {
+    fun setIsTracking(isTracking: Boolean) {
         this.isTracking.value = isTracking
     }
 

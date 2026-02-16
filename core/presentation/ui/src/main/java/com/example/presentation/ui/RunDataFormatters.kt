@@ -15,6 +15,8 @@ fun Duration.formatted(): String {
     val minutes = String.format("%02d", (totalSeconds % HOUR_TO_SECOND) / MINUTE_TO_SECOND)
     val seconds = String.format("%02d", totalSeconds % MINUTE_TO_SECOND)
 
+    println(" haha $totalSeconds $hours:$minutes:$seconds")
+
     return "$hours:$minutes:$seconds"
 }
 

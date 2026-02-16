@@ -10,12 +10,12 @@ object Timer {
             var lastEmitTime = System.currentTimeMillis()
 
             while (true) {
-                delay(200L)
+                delay(1000L)
                 val currentTime = System.currentTimeMillis()
                 val elapsedTime = currentTime - lastEmitTime
+                println("haha hehe $lastEmitTime, $currentTime, $elapsedTime, in millisec elapsed time: ${elapsedTime.milliseconds}")
                 emit(elapsedTime.milliseconds)
                 lastEmitTime = currentTime
-
             }
         }
     }

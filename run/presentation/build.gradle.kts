@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.gumrun.android.feature.ui)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.mapsplatform.secrets.plugin)
 }
 
 android {
