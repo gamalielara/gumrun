@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 fun GumrunActionButton(
     text: String,
     isLoading: Boolean,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     onClick: () -> Unit
 ) {
@@ -69,7 +69,7 @@ fun GumrunActionButton(
 fun GumrunOutlinedActionButton(
     text: String,
     isLoading: Boolean,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     onClick: () -> Unit
 ) {

@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.example.core.presentation.designsystem.GumrunTheme
 import com.example.core.presentation.designsystem.StartIcon
 import com.example.core.presentation.designsystem.StopIcon
+import com.example.core.presentation.designsystem.components.GumrunActionButton
 import com.example.core.presentation.designsystem.components.GumrunDialog
 import com.example.core.presentation.designsystem.components.GumrunFloatingActionButton
 import com.example.core.presentation.designsystem.components.GumrunOutlinedActionButton
@@ -154,6 +155,34 @@ private fun ActiveRunScreen(
                     .fillMaxWidth()
             )
         }
+    }
+
+    // Showing run result
+    if (!state.shouldTrack && state.hasStartedRunning) {
+        GumrunDialog(
+            title = stringResource(R.string.run_paused),
+            onDismiss = { onAction(ActiveRunAction.OnResumeRunClick) },
+            description = stringResource(R.string.run_paused_desc),
+            primaryButton = {
+                GumrunActionButton(
+                    text = stringResource(R.string.resume),
+                    isLoading = false,
+                    onClick = { onAction(ActiveRunAction.OnResumeRunClick) },
+                    modifier = Modifier.weight(1f)
+                )
+
+            },
+            secondaryButton = {
+                GumrunOutlinedActionButton(
+                    text = stringResource(R.string.finish),
+                    isLoading = state.isRunSaving,
+                    onClick = {
+                        onAction(ActiveRunAction.OnFinishRunClick)
+                    },
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        )
     }
 
     if (state.showLocationRationale || state.showNotificationRationale) {
